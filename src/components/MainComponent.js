@@ -3,37 +3,50 @@ import Card from "@/components/Card";
 import Search from "@/components/Search";
 import Table from "@/components/Table";
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function MainComponent({ subUrl, leagueId }) {
+export default function MainComponent({ subUrl, leagueId, orderBy }) {
   const [players, setPlayers] = useState([]);
   const [leagues, setLeagues] = useState([]);
-  const router = useRouter();
-  console.log(subUrl);
+  const [loading, setLoading] = useState(true);
 
+  const router = useRouter();
+  const searchParams = useSearchParams();
   if (leagueId === "All%20leagues") {
     router.push(`/${subUrl}`);
   }
 
   const queryParams = {};
 
+  if (leagueId == 0) {
+    leagueId = null;
+  }
+
   if (leagueId) {
     queryParams.leagueId = leagueId;
   }
+  if (orderBy) {
+    queryParams.orderBy = orderBy;
+  }
 
-  console.log(queryParams.leagueId);
+  // if (orderParams != orderBy) {
+  //   router.reload();
+  // }
 
   useEffect(() => {
     axios
       .get(`http://localhost:5000/${subUrl}`, {
         params: {
           leagueId: queryParams.leagueId,
+          orderBy: queryParams.orderBy,
         },
       })
+
       .then((data) => {
         setPlayers(data.data);
-      });
+      })
+      .then(() => setLoading(false));
   }, []);
 
   useEffect(() => {
@@ -48,9 +61,10 @@ export default function MainComponent({ subUrl, leagueId }) {
     //     return <Card player={player} />;
     //   })}
     // </div>
+
     <div>
       <Search leagues={leagues} />
-      <Table players={players} />
+      <Table players={players} loading={loading} />
     </div>
   );
 }

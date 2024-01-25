@@ -1,8 +1,12 @@
-export default function Table({ players }) {
-  return (
-    <div className="overflow-x-auto">
+import Loading from "@/app/loading";
+
+export default function Table({ players, loading }) {
+  return loading ? (
+    <Loading />
+  ) : (
+    <div>
       <table className="table">
-        <thead>
+        <thead class="bg-white border-b sticky top-0">
           <tr className="text-center">
             <th>Name</th>
             <th>Fee</th>
