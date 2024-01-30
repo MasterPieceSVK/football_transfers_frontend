@@ -60,8 +60,10 @@ export default function Search({ leagues }) {
         onChange={handleLeagueChange}
       >
         <option value="0">All leagues</option>
-        {leagues.map((league) => (
-          <option value={league.id}>{league.name}</option>
+        {leagues.map((league, i) => (
+          <option value={league.id} key={i}>
+            {league.name}
+          </option>
         ))}
       </select>
     </div>

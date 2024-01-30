@@ -78,8 +78,8 @@ export default function MainComponent({ subUrl, leagueId, orderBy }) {
             <div className="flex flex-wrap flex-1">
               {/* // money parser */}
               {parseMoney(players)}
-              {players.map((player) => {
-                return <Card player={player} />;
+              {players.map((player, i) => {
+                return <Card player={player} key={i} />;
               })}
             </div>
           </div>

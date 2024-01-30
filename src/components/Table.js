@@ -21,7 +21,7 @@ export default function Table({ players, loading }) {
           </tr>
         </thead>
         <tbody>
-          {players.map((player) => {
+          {players.map((player, i) => {
             const inputDate = new Date(player.transfer_date);
 
             const options = { day: "numeric", month: "short", year: "numeric" };
@@ -31,7 +31,7 @@ export default function Table({ players, loading }) {
             );
 
             return (
-              <tr>
+              <tr key={i}>
                 <td>
                   <motion.div
                     initial={{ opacity: 0, y: -100 }}
