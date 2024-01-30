@@ -12,15 +12,27 @@ export default function Card({ player, loading }) {
       transition={{ type: "spring" }}
     >
       <h1 className="text-2xl font-bold text-neutral">{player.name}</h1>
-      <img src={player.player_image} className="rounded-full w-[7rem]" />
+      <img
+        src={player.player_image}
+        className="rounded-full w-[7rem]"
+        alt="player_image"
+      />
       <h2 className="font-bold">{player.position}</h2>
       <div className="flex flex-col justify-center">
         <h2>{player.from_club}</h2>
-        <img src={player.from_club_icon} className="object-scale-down" />
+        <img
+          src={player.from_club_icon}
+          className="object-scale-down"
+          alt="from club icon"
+        />
       </div>
       <div className="flex flex-col justify-center">
         <h2>{player.to_club}</h2>
-        <img src={player.to_club_icon} className="object-scale-down" />
+        <img
+          src={player.to_club_icon}
+          className="object-scale-down"
+          alt="to club icon"
+        />
       </div>
       <h2>{player.fee}</h2>
       {player.fee_subtitle ? <h2>{player.fee_subtitle}</h2> : <></>}

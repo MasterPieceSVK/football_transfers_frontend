@@ -55,7 +55,7 @@ export default function MainComponent({ subUrl, leagueId, orderBy }) {
         }
       })
       .then(() => setLoading(false));
-  }, [numberOfResults]);
+  }, [numberOfResults, subUrl, queryParams.leagueId, queryParams.orderBy]);
 
   useEffect(() => {
     axios

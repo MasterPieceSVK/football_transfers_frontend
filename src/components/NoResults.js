@@ -4,6 +4,7 @@ export default function NoResults() {
       <img
         src="/search-magnifier-magnifying-emoji-happy-svgrepo-com.svg"
         className="w-16"
+        alt="no results found"
       />
       <h1>No results found</h1>
     </div>
