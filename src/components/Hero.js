@@ -24,7 +24,7 @@ export default function Hero() {
           href="/all/0/latest"
           className="btn btn-primary row-start-3 col-start-2"
         >
-          Get Started
+          Enter
         </Link>
       </motion.div>
     </div>
