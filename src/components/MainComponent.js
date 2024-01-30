@@ -5,12 +5,19 @@ import Table from "@/components/Table";
 import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import MoreBtn from "./MoreBtn";
+import Loadable from "next/dist/shared/lib/loadable.shared-runtime";
+import Loading from "@/app/loading";
+import parseMoney from "./functions/parseMoney";
+import NoResults from "./NoResults";
 
 export default function MainComponent({ subUrl, leagueId, orderBy }) {
   const [players, setPlayers] = useState([]);
   const [leagues, setLeagues] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const [numberOfResults, setNumberOfResults] = useState(40);
+  const [noResults, setNoResults] = useState(false);
+  const [hasFetched, setHasFetched] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
   if (leagueId === "All%20leagues") {
@@ -20,7 +27,7 @@ export default function MainComponent({ subUrl, leagueId, orderBy }) {
   const queryParams = {};
 
   if (leagueId == 0) {
-    leagueId = null;
+    leagueId = "all_leagues";
   }
 
   if (leagueId) {
@@ -28,43 +35,63 @@ export default function MainComponent({ subUrl, leagueId, orderBy }) {
   }
   if (orderBy) {
     queryParams.orderBy = orderBy;
+  } else {
+    queryParams.orderBy = "latest";
   }
 
-  // if (orderParams != orderBy) {
-  //   router.reload();
-  // }
+  function loadContent(more) {
+    setNumberOfResults(() => numberOfResults + more);
+  }
+
+  useEffect(() => {
+    const url = `https://football-transfers-api.onrender.com/${subUrl}/${numberOfResults}/${queryParams.leagueId}/${queryParams.orderBy}`;
+    axios
+      .get(url)
+      .then((data) => {
+        setPlayers(data.data);
+        setHasFetched(true);
+        if (data.data.length === 0) {
+          setNoResults(true);
+        }
+      })
+      .then(() => setLoading(false));
+  }, [numberOfResults]);
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/${subUrl}`, {
-        params: {
-          leagueId: queryParams.leagueId,
-          orderBy: queryParams.orderBy,
-        },
-      })
-
+      .get("https://football-transfers-api.onrender.com/leagues")
       .then((data) => {
-        setPlayers(data.data);
-      })
-      .then(() => setLoading(false));
-  }, []);
-
-  useEffect(() => {
-    axios.get("http://localhost:5000/leagues").then((data) => {
-      setLeagues(data.data);
-    });
+        setLeagues(data.data);
+      });
   }, []);
 
   return (
-    // <div className="flex flex-wrap flex-1">
-    //   {players.map((player) => {
-    //     return <Card player={player} />;
-    //   })}
-    // </div>
-
     <div>
-      <Search leagues={leagues} />
-      <Table players={players} loading={loading} />
+      <Search leagues={leagues} loading={loading} />
+      {loading ? (
+        <Loading />
+      ) : noResults && hasFetched ? (
+        <NoResults />
+      ) : (
+        <div>
+          <div className="lg:hidden">
+            <div className="flex flex-wrap flex-1">
+              {/* // money parser */}
+              {parseMoney(players)}
+              {players.map((player) => {
+                return <Card player={player} />;
+              })}
+            </div>
+          </div>
+          <div className="hidden lg:block">
+            {/* // money parser */}
+            {parseMoney(players)}
+            <Table players={players} loading={loading} />
+          </div>
+        </div>
+      )}
+
+      {!loading && !noResults && <MoreBtn loadContent={loadContent} />}
     </div>
   );
 }

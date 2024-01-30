@@ -1,3 +1,5 @@
+import { motion } from "framer-motion";
+
 import Loading from "@/app/loading";
 
 export default function Table({ players, loading }) {
@@ -20,50 +22,113 @@ export default function Table({ players, loading }) {
         </thead>
         <tbody>
           {players.map((player) => {
+            const inputDate = new Date(player.transfer_date);
+
+            const options = { day: "numeric", month: "short", year: "numeric" };
+            const convertedTransferDate = inputDate.toLocaleDateString(
+              "en-GB",
+              options
+            );
+
             return (
               <tr>
                 <td>
-                  <div className="flex items-center gap-3">
-                    <div className="avatar">
-                      <div className="mask mask-squircle w-12 h-12">
-                        <img src={player.playerImage} alt="Player Image" />
+                  <motion.div
+                    initial={{ opacity: 0, y: -100 }}
+                    animate={{ y: 0 }}
+                    whileInView={{ opacity: 1 }}
+                  >
+                    <div className="flex items-center justify-center gap-3">
+                      <div className="avatar">
+                        <div className="mask mask-squircle w-12 h-12">
+                          <img src={player.player_image} alt="Player Image" />
+                        </div>
+                      </div>
+                      <div>
+                        <div className="font-bold">{player.name}</div>
                       </div>
                     </div>
-                    <div>
-                      <div className="font-bold">{player.name}</div>
-                    </div>
-                  </div>
+                  </motion.div>
                 </td>
-                <td>
-                  {player.fee}
-                  <br />
-                  {player.feeSubtitle ? (
-                    <span className="badge badge-ghost badge-sm">
-                      {" "}
-                      {player.feeSubtitle}{" "}
-                    </span>
-                  ) : (
-                    <></>
-                  )}
+                <td className="text-center">
+                  <motion.div
+                    initial={{ opacity: 0, y: -100 }}
+                    animate={{ y: 0 }}
+                    whileInView={{ opacity: 1 }}
+                  >
+                    {player.fee}
+                    {player.fee_subtitle ? (
+                      <span className="badge badge-ghost badge-sm">
+                        {" "}
+                        {player.fee_subtitle}{" "}
+                      </span>
+                    ) : (
+                      <></>
+                    )}
+                  </motion.div>
                 </td>
                 <td className="flex justify-center items-center">
-                  {player.fromClub}
-                  <span>
-                    <img src={player.fromClubIcon} className=" m-4 h-8" />
-                  </span>
+                  <motion.div
+                    initial={{ opacity: 0, y: -100 }}
+                    animate={{ y: 0 }}
+                    whileInView={{ opacity: 1 }}
+                  >
+                    {player.from_club}
+                    <span>
+                      <img src={player.from_club_icon} className=" m-4 h-8" />
+                    </span>
+                  </motion.div>
                 </td>
                 <td>
-                  <div className="flex justify-center items-center">
-                    {player.toClub}
-                    <span>
-                      <img src={player.toClubIcon} className=" m-4 h-8" />
-                    </span>
-                  </div>
+                  <motion.div
+                    initial={{ opacity: 0, y: -100 }}
+                    animate={{ y: 0 }}
+                    whileInView={{ opacity: 1 }}
+                  >
+                    <div className="flex justify-center items-center">
+                      {player.to_club}
+                      <span>
+                        <img src={player.to_club_icon} className=" m-4 h-8" />
+                      </span>
+                    </div>
+                  </motion.div>
                 </td>
-                <td>{player.position}</td>
-                <td>{player.contract}</td>
-                <td>{player.marketValue}</td>
-                <td>{player.transferDate}</td>
+                <td className="text-center">
+                  <motion.div
+                    initial={{ opacity: 0, y: -100 }}
+                    animate={{ y: 0 }}
+                    whileInView={{ opacity: 1 }}
+                  >
+                    {player.position}
+                  </motion.div>
+                </td>
+                <td className="text-center">
+                  <motion.div
+                    initial={{ opacity: 0, y: -100 }}
+                    animate={{ y: 0 }}
+                    whileInView={{ opacity: 1 }}
+                  >
+                    {player.contract}
+                  </motion.div>
+                </td>
+                <td className="text-center">
+                  <motion.div
+                    initial={{ opacity: 0, y: -100 }}
+                    animate={{ y: 0 }}
+                    whileInView={{ opacity: 1 }}
+                  >
+                    {player.market_value}
+                  </motion.div>
+                </td>
+                <td className="text-center">
+                  <motion.div
+                    initial={{ opacity: 0, y: -100 }}
+                    animate={{ y: 0 }}
+                    whileInView={{ opacity: 1 }}
+                  >
+                    {convertedTransferDate}
+                  </motion.div>
+                </td>
               </tr>
             );
           })}

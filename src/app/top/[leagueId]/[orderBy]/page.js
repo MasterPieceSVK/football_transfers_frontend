@@ -4,7 +4,7 @@ export default function OrderBy({ params }) {
   return (
     <MainComponent
       leagueId={params.leagueId}
-      subUrl="all"
+      subUrl="top"
       orderBy={params.orderBy}
     />
   );

@@ -25,78 +25,44 @@ export default function Search({ leagues }) {
   }
 
   return (
-    <div className="flex lg:justify-center md:justify-around bg-primary pb-5">
+    <div className="flex  flex-col  md:flex-row items-center  lg:justify-center  bg-primary pb-5 px-5">
       <select
         className="select select-bordered w-full max-w-xs text-center lg:mr-3"
+        value={
+          pathName.includes("latest")
+            ? "latest"
+            : pathName.includes("fee")
+            ? "fee"
+            : "market_value"
+        }
         onChange={handleOrderChange}
       >
-        {pathName.includes("latest") ? (
-          <option value="latest" selected>
-            Latest
-          </option>
-        ) : (
-          <option value="latest">Latest</option>
-        )}
-
-        {pathName.includes("fee") ? (
-          <option value="fee" selected>
-            Fee
-          </option>
-        ) : (
-          <option value="fee">Fee</option>
-        )}
-
-        {pathName.includes("value") ? (
-          <option value="value" selected>
-            Market Value
-          </option>
-        ) : (
-          <option value="value">Market Value</option>
-        )}
+        <option value="latest">Latest</option>
+        <option value="fee">Fee</option>
+        <option value="market_value">Market Value</option>
       </select>
       <select
-        className="select select-bordered w-full max-w-xs text-center lg:mr-3 lg:ml-3"
+        className="select select-bordered w-full max-w-xs text-center lg:mr-3 lg:ml-3 my-3"
+        value={pathName.startsWith("/all") ? "all" : "top"}
         onChange={handleAllTopChange}
       >
-        {pathName.startsWith("/all") ? (
-          <option value="all" selected>
-            All
-          </option>
-        ) : (
-          <option value="all">All</option>
-        )}
-        {pathName.startsWith("/top") ? (
-          <option value="top" selected>
-            Top
-          </option>
-        ) : (
-          <option value="top">Top</option>
-        )}
+        <option value="all">All</option>
+        <option value="top">Top</option>
       </select>
       <select
-        className="select select-bordered w-full max-w-xs text-center lg:ml-3"
+        className="select select-bordered w-full max-w-xs text-center lg:ml-3 "
+        value={
+          pathName.split("/").length == 2 ||
+          pathName.split("/")[2] == "All%20leagues"
+            ? "0"
+            : pathName.split("/")[2]
+        }
         onChange={handleLeagueChange}
       >
-        {pathName.split("/").length == 2 ||
-        pathName.split("/")[2] == "All%20leagues" ? (
-          <option value="0" selected>
-            All leagues
-          </option>
-        ) : (
-          <option value="0">All leagues</option>
-        )}
-
-        {leagues.map((league) => {
-          if (pathName.includes(league.id)) {
-            return (
-              <option value={league.id} selected>
-                {league.name}
-              </option>
-            );
-          } else {
-            return <option value={league.id}>{league.name}</option>;
-          }
-        })}
+        <option value="0">All leagues</option>
+        {leagues.map((league) => (
+          <option value={league.id}>{league.name}</option>
+        ))}
       </select>
     </div>
   );

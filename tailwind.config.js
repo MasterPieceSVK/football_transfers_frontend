@@ -35,6 +35,9 @@ module.exports = {
           warning: "#e4a500",
 
           error: "#ff0e59",
+          screens: {
+            lg: "1120px",
+          },
         },
       },
     ],
