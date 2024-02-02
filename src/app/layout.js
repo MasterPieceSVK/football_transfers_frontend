@@ -1,7 +1,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
-
+import { GoogleAnalytics } from "@next/third-parties/google";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -17,6 +17,7 @@ export default function RootLayout({ children }) {
         <Navbar />
         <div className="flex-1">{children}</div>
       </body>
+      <GoogleAnalytics gaId="G-81XCVBCDW3" />
     </html>
   );
 }
