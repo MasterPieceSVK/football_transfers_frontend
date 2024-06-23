@@ -44,7 +44,7 @@ export default function MainComponent({ subUrl, leagueId, orderBy }) {
   }
 
   useEffect(() => {
-    const url = `https://football-transfers-api.onrender.com/${subUrl}/${numberOfResults}/${queryParams.leagueId}/${queryParams.orderBy}`;
+    const url = `https://football-transfers-api-new.onrender.com/${subUrl}/${numberOfResults}/${queryParams.leagueId}/${queryParams.orderBy}`;
     axios
       .get(url)
       .then((data) => {
@@ -59,7 +59,7 @@ export default function MainComponent({ subUrl, leagueId, orderBy }) {
 
   useEffect(() => {
     axios
-      .get("https://football-transfers-api.onrender.com/leagues")
+      .get("https://football-transfers-api-new.onrender.com/leagues")
       .then((data) => {
         setLeagues(data.data);
       });
